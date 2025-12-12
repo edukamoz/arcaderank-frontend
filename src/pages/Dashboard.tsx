@@ -30,7 +30,7 @@ const GAMES = [
 ];
 
 export function Dashboard() {
-  const { user, logout, token } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const [stats, setStats] = useState({ level: 1, xp: 0 });
 
   useEffect(() => {

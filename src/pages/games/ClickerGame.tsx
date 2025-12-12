@@ -11,7 +11,7 @@ export function ClickerGame() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameOver, setGameOver] = useState(false);
 
-  const timerRef = useRef<number>();
+  const timerRef = useRef<number | undefined>(undefined);
 
   const startGame = () => {
     setScore(0);
