@@ -1,73 +1,39 @@
-# React + TypeScript + Vite
+# 🎮 ArcadeRank Web Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend moderno e performático para a plataforma de jogos **ArcadeRank**. Construído com foco em componentização, gerenciamento de estado global e renderização gráfica via Canvas API.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias & Arquitetura
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este projeto utiliza uma stack atualizada focada em performance e DX (Developer Experience):
 
-## React Compiler
+- **React + Vite**: Build tool ultrarrápido com Hot Module Replacement (HMR).
+- **TypeScript**: Tipagem estrita para garantir contrato de dados com a API.
+- **TailwindCSS**: Estilização Utility-First para UI consistente e responsiva.
+- **Zustand**: Gerenciamento de estado global (Auth, User Session) minimalista e sem boilerplate.
+- **Axios**: Cliente HTTP com padrão Singleton e Interceptors para injeção automática de JWT.
+- **Canvas API**: Renderização de jogos (Snake) sem dependência de engines pesadas.
+- **Lucide React**: Ícones leves e customizáveis.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🕹️ Funcionalidades
 
-## Expanding the ESLint configuration
+- [x] **Autenticação JWT**: Login seguro, persistência de sessão e proteção de rotas (Guards).
+- [x] **Game Engines Customizadas**: Jogos (Snake, Clicker) implementados do zero usando `requestAnimationFrame` e React Refs para alta performance (60 FPS).
+- [x] **Gamificação em Tempo Real**: HUD atualizado instantaneamente após o término das partidas.
+- [x] **Ranking Visual**: Leaderboard com destaque para Top 3 e usuário logado.
+- [x] **UI Responsiva**: Design "Dark Mode" adaptável para Desktop e Mobile.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📂 Estrutura do Projeto
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/ # Componentes Reutilizáveis (ProtectedRoute, etc)
+├── lib/ # Configurações de Infra (Axios instance)
+├── pages/ # Telas da Aplicação (Login, Dashboard, Leaderboard)
+│ └── games/ # Lógica Específica dos Jogos (Snake, Clicker)
+├── store/ # Estado Global (Zustand Auth Store)
+└── main.tsx # Entry Point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔗 Integração
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Este frontend consome a API RESTful do ArcadeRank Backend.
