@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode"; // Para ler os dados do token
 import { Gamepad2, Loader2, Lock, Mail } from "lucide-react"; // Ícones
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { useAuthStore } from "../store/authStore";
 
@@ -116,9 +116,12 @@ export function Login() {
 
         <div className="mt-6 text-center text-sm text-slate-500">
           Ainda não tem conta?{" "}
-          <span className="text-emerald-400 cursor-pointer hover:underline">
+          <Link
+            to="/register"
+            className="text-emerald-400 cursor-pointer hover:underline"
+          >
             Crie uma agora
-          </span>
+          </Link>
         </div>
       </div>
     </div>
