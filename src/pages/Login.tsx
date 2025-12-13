@@ -39,6 +39,7 @@ export function Login() {
       });
 
       navigate("/dashboard");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       if (err.response?.status === 401) {

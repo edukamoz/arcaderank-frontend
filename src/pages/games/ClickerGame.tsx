@@ -12,9 +12,11 @@ export function ClickerGame() {
   const [gameOver, setGameOver] = useState(false);
 
   const timerRef = useRef<number | undefined>(undefined);
+  const scoreRef = useRef(0);
 
   const startGame = () => {
     setScore(0);
+    scoreRef.current = 0;
     setTimeLeft(10);
     setIsPlaying(true);
     setGameOver(false);
@@ -23,32 +25,35 @@ export function ClickerGame() {
   const handleClick = () => {
     if (isPlaying) {
       setScore((s) => s + 1);
+      scoreRef.current += 1;
     }
   };
 
   useEffect(() => {
     if (isPlaying && timeLeft > 0) {
       timerRef.current = window.setTimeout(() => {
-        setTimeLeft((t) => t - 1);
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            setIsPlaying(false);
+            setGameOver(true);
+
+            if (scoreRef.current > 0) {
+              api
+                .post("/users/score", {
+                  gameId: "clicker",
+                  score: scoreRef.current,
+                })
+                .catch((err) => console.error(err));
+            }
+            return 0;
+          }
+          return prevTime - 1;
+        });
       }, 1000);
-    } else if (isPlaying && timeLeft === 0) {
-      setIsPlaying(false);
-      setGameOver(true);
-      handleGameOver();
     }
+
     return () => clearTimeout(timerRef.current);
   }, [isPlaying, timeLeft]);
-
-  const handleGameOver = () => {
-    if (score > 0) {
-      api
-        .post("/users/score", {
-          gameId: "clicker",
-          score: score,
-        })
-        .catch((err) => console.error(err));
-    }
-  };
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">

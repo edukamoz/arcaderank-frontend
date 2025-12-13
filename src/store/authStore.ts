@@ -17,16 +17,19 @@ interface AuthState {
   logout: () => void;
 }
 
-// Helper para restaurar sessão ao dar F5
+interface TokenPayload {
+  sub: string;
+  username: string;
+  exp: number;
+}
+
 const getInitialState = () => {
   const token = localStorage.getItem("auth_token");
 
   if (token) {
     try {
-      // Tenta decodificar o token salvo para recuperar ID e Username
-      const decoded: any = jwtDecode(token);
+      const decoded = jwtDecode<TokenPayload>(token);
 
-      // Verifica se o token não expirou (timestamp em segundos)
       const currentTime = Date.now() / 1000;
       if (decoded.exp < currentTime) {
         localStorage.removeItem("auth_token");
@@ -37,14 +40,14 @@ const getInitialState = () => {
         token,
         isAuthenticated: true,
         user: {
-          id: decoded.sub, // Recupera o ID crítico para a Dashboard funcionar
+          id: decoded.sub,
           username: decoded.username,
-          email: "", // Backend preencherá depois
-          level: 1, // Dashboard atualizará
-          xp: 0, // Dashboard atualizará
+          email: "",
+          level: 1,
+          xp: 0,
         },
       };
-    } catch (error) {
+    } catch {
       localStorage.removeItem("auth_token");
     }
   }
